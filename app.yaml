@@ -1,0 +1,24 @@
+application: codelab-maas
+version: zero
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: .*
+  script: main.APPLICATION
+
+libraries:
+- name: jinja2
+  version: latest
+- name: PIL
+  version: latest
+- name: webob
+  version: latest
+
+inbound_services:
+- warmup

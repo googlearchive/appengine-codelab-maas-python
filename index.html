@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Generator</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+</head>
+<body>
+<form id="meme_form">
+  Template:
+  <select id="meme_template" name="meme_template"
+          onchange="Maas.previewUpdater.trigger();">
+    {% for template in templates %}
+    <option value="{{template}}">{{template}}
+    {% endfor %}
+  </select>
+  <br>
+  Upper Text: <input name="upper_text" size="100"
+                     oninput="Maas.previewUpdater.trigger();">
+  Align:
+  <select name="upper_text_align" onchange="Maas.previewUpdater.trigger();">
+    <option value="left">Left
+    <option value="middle" selected>Center
+    <option value="right">Right
+  </select>
+  <br>
+  Middle Text: <input name="middle_text" size="100"
+                      oninput="Maas.previewUpdater.trigger();">
+  Align:
+  <select name="middle_text_align" onchange="Maas.previewUpdater.trigger();">
+    <option value="left">Left
+    <option value="middle" selected>Center
+    <option value="right">Right
+  </select>
+  <br>
+  Lower Text: <input name="lower_text" size="100"
+                     oninput="Maas.previewUpdater.trigger();">
+  Align:
+  <select name="lower_text_align" onchange="Maas.previewUpdater.trigger();">
+    <option value="left">Left
+    <option value="middle" selected>Center
+    <option value="right">Right
+  </select>
+  <br>
+</form>
+<hr>
+<div id="preview"><img id="preview_image"></div>
+<script>
+  var Maas = {};
+  Maas.updatePreview = function() {
+      $("#preview_image").attr("src",
+                               "/preview?" + $("#meme_form").serialize());
+  };
+  Maas.DelayedAction = function(delayMillis, action) {
+    var self = this;
+    this.task = function() {
+      self.action();
+      self.taskId = null;
+    }
+    this.delayMillis = delayMillis;
+    this.action = action;
+    this.taskId = null;
+  };
+  Maas.DelayedAction.prototype.trigger = function() {
+    this.cancel();
+    this.taskId = window.setTimeout(this.task, this.delayMillis);
+  };
+  Maas.DelayedAction.prototype.cancel = function() {
+    if (this.taskId) {
+      window.clearTimeout(this.taskId);
+    }
+    this.taskId = null;
+  };
+  Maas.previewUpdater = new Maas.DelayedAction(350, Maas.updatePreview);
+  $(document).ready(function() {
+    $("#meme_template").change(function(event) {
+      Maas.updatePreview();
+    });
+    Maas.updatePreview();
+  });
+</script>
+</body>
+</html>
