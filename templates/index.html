@@ -4,8 +4,13 @@
 <title>Image Generator</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
+<link rel="stylesheet" href="/static/css/maas.css" type="text/css">
 </head>
 <body>
+<div id="login_logout">
+  Hello {{ nickname }}!
+  <a href="{{ link_url }}">{{ link_text }}</a>
+</div>
 <form id="meme_form">
   Template:
   <select name="meme_template">
