@@ -50,13 +50,13 @@ class MainHandler(webapp2.RequestHandler):
         template = JINJA_ENV.get_template('index.html')
         # step-1
         # Obtain information of the current signed in user.
-        user = users.get_current_user()
+        user = TODO
         if user:
             nickname = user.nickname()
             link_text = 'Logout'
             # step-1
             # Create a URL for loging out from the app.
-            link_url = users.create_logout_url(self.request.uri)
+            link_url = TODO
         else:
             nickname = 'Anonymous user'
             link_text = 'Login'
