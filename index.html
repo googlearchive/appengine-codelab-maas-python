@@ -14,6 +14,13 @@
     <option value="{{template}}">{{template}}
     {% endfor %}
   </select>
+  Font:
+  <select id="meme_font" name="meme_font"
+          onchange="Maas.previewUpdater.trigger();">
+    {% for font in fonts %}
+    <option value="{{font}}">{{font}}
+    {% endfor %}
+  </select>
   <br>
   Upper Text: <input name="upper_text" size="100"
                      oninput="Maas.previewUpdater.trigger();">
