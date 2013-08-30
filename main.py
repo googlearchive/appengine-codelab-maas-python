@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import collections
 
 import jinja2
 import webapp2
@@ -14,21 +15,21 @@ JINJA_ENV = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'])
 
-MEME_TEMPLATES = {
-    'happyboy': 'happyboy.jpeg',
-    'rapperboy': 'rapperboy.jpeg',
-    'realappengine': 'realappengine.jpeg',
-    'shrugging': 'shrugging.jpeg',
-}
+MEME_TEMPLATES = collections.OrderedDict([
+    ('happyboy', 'happyboy.jpeg'),
+    ('rapperboy', 'rapperboy.jpeg'),
+    ('realappengine', 'realappengine.jpeg'),
+    ('shrugging', 'shrugging.jpeg'),
+])
 
 DEFAULT_TEMPLATE = 'happyboy.jpeg'
 
 IMAGE_DIR = 'images'
 
-MEME_FONTS = {
-    'FreeSerif': 'FreeSerif.ttf',
-    'mikachan': 'mikachan.ttf',
-}
+MEME_FONTS = collections.OrderedDict([
+    ('mikachan', 'mikachan.ttf'),
+    ('FreeSerif', 'FreeSerif.ttf'),
+])
 
 DEFAULT_FONT = 'FreeSerif.ttf'
 
@@ -40,8 +41,8 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         """Render an HTML form for creating Memes."""
         template = JINJA_ENV.get_template('index.html')
-        context = {'templates': sorted(MEME_TEMPLATES.keys()),
-                   'fonts': sorted(MEME_FONTS.keys())}
+        context = {'templates': MEME_TEMPLATES,
+                   'fonts': MEME_FONTS}
         self.response.out.write(template.render(context))
 
 
