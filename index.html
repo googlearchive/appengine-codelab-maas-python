@@ -8,42 +8,37 @@
 <body>
 <form id="meme_form">
   Template:
-  <select id="meme_template" name="meme_template"
-          onchange="Maas.previewUpdater.trigger();">
+  <select name="meme_template">
     {% for template in templates %}
     <option value="{{template}}">{{template}}
     {% endfor %}
   </select>
   Font:
-  <select id="meme_font" name="meme_font"
-          onchange="Maas.previewUpdater.trigger();">
+  <select name="meme_font">
     {% for font in fonts %}
     <option value="{{font}}">{{font}}
     {% endfor %}
   </select>
   <br>
-  Upper Text: <input name="upper_text" size="100"
-                     oninput="Maas.previewUpdater.trigger();">
+  Upper Text: <input name="upper_text" size="100">
   Align:
-  <select name="upper_text_align" onchange="Maas.previewUpdater.trigger();">
+  <select name="upper_text_align">
     <option value="left">Left
     <option value="middle" selected>Center
     <option value="right">Right
   </select>
   <br>
-  Middle Text: <input name="middle_text" size="100"
-                      oninput="Maas.previewUpdater.trigger();">
+  Middle Text: <input name="middle_text" size="100">
   Align:
-  <select name="middle_text_align" onchange="Maas.previewUpdater.trigger();">
+  <select  name="middle_text_align">
     <option value="left">Left
     <option value="middle" selected>Center
     <option value="right">Right
   </select>
   <br>
-  Lower Text: <input name="lower_text" size="100"
-                     oninput="Maas.previewUpdater.trigger();">
+  Lower Text: <input name="lower_text" size="100">
   Align:
-  <select name="lower_text_align" onchange="Maas.previewUpdater.trigger();">
+  <select name="lower_text_align">
     <option value="left">Left
     <option value="middle" selected>Center
     <option value="right">Right
@@ -80,8 +75,14 @@
   };
   Maas.previewUpdater = new Maas.DelayedAction(350, Maas.updatePreview);
   $(document).ready(function() {
-    $("#meme_template").change(function(event) {
+    $("input[name=meme_template], input[name=meme_font], " +
+      "input[name=upper_text_align], input[name=middle_text_align], " +
+      "input[name=lower_text_align").change(function(event) {
       Maas.updatePreview();
+    });
+    $("input[name=upper_text], input[name=middle_text], " +
+      "input[name=lower_text]").change(function(event) {
+      Maas.previewUpdater.trigger();
     });
     Maas.updatePreview();
   });
