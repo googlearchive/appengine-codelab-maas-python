@@ -75,15 +75,20 @@
   };
   Maas.previewUpdater = new Maas.DelayedAction(350, Maas.updatePreview);
   $(document).ready(function() {
-    $("input[name=meme_template], input[name=meme_font], " +
-      "input[name=upper_text_align], input[name=middle_text_align], " +
-      "input[name=lower_text_align").change(function(event) {
-      Maas.updatePreview();
-    });
-    $("input[name=upper_text], input[name=middle_text], " +
-      "input[name=lower_text]").change(function(event) {
+    $("select[name=meme_template], select[name=meme_font], " +
+      "select[name=upper_text_align], select[name=middle_text_align], " +
+      "select[name=lower_text_align").change(function(event) {
       Maas.previewUpdater.trigger();
     });
+    $("input[name=upper_text]")[0].oninput = function() {
+      Maas.previewUpdater.trigger();
+    };
+    $("input[name=middle_text]")[0].oninput = function() {
+      Maas.previewUpdater.trigger();
+    };
+    $("input[name=lower_text]")[0].oninput = function() {
+      Maas.previewUpdater.trigger();
+    };
     Maas.updatePreview();
   });
 </script>
