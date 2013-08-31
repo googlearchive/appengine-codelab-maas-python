@@ -6,6 +6,8 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from google.appengine.ext import ndb
 
 
+TODO = None
+
 TOP = "top"
 MIDDLE = "middle"
 BOTTOM = "bottom"
@@ -122,7 +124,11 @@ def draw_text(target, vertical_position, horizontal_position, text,
 
 class Meme(ndb.Model):
     """A model class for storing memes."""
-    owner = ndb.UserProperty()
+    # step-2
+    # Fill the owner attribute, in order to save the owner info.
+    # See the docs below:
+    # https://developers.google.com/appengine/docs/python/ndb/properties#types
+    owner = TODO
     image = ndb.BlobProperty()
     thumbnail = ndb.BlobProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True)
