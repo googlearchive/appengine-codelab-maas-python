@@ -145,11 +145,15 @@ class MemeHandler(webapp2.RequestHandler):
         nickname, link_url, link_text = get_login_logout_context(
             self.request.uri)
         template = JINJA_ENV.get_template('meme.html')
+        if target.owner:
+            owner_nickname = target.owner.nickname()
+        else:
+            owner_nickname = 'Anonymous user'
         context = {
             'nickname': nickname,
             'link_url': link_url,
             'link_text': link_text,
-            'meme_owner': target.owner.nickname(),
+            'meme_owner': owner_nickname,
             'meme_id': target.key.id(),
             'meme_created_date': target.created_at,
         }
