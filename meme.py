@@ -124,4 +124,5 @@ class Meme(ndb.Model):
     """A model class for storing memes."""
     owner = ndb.UserProperty()
     image = ndb.BlobProperty()
+    thumbnail = ndb.BlobProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True)

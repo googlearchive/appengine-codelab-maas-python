@@ -121,9 +121,14 @@ class ImageHandler(webapp2.RequestHandler):
         if user:
             new_meme.owner = user
         output = StringIO.StringIO()
+        thumbnail_output = StringIO.StringIO()
         image.save(output, "JPEG")
+        image.thumbnail((300,300), Image.ANTIALIAS)
+        image.save(thumbnail_output, "JPEG")
         new_meme.image = output.getvalue()
+        new_meme.thumbnail = thumbnail_output.getvalue()
         output.close()
+        thumbnail_output.close()
         new_meme.put()
         self.redirect("/meme/{}".format(new_meme.key.id()), abort=True)
 
