@@ -77,7 +77,7 @@
   $(document).ready(function() {
     $("select[name=meme_template], select[name=meme_font], " +
       "select[name=upper_text_align], select[name=middle_text_align], " +
-      "select[name=lower_text_align").change(function(event) {
+      "select[name=lower_text_align]").change(function(event) {
       Maas.previewUpdater.trigger();
     });
     $("input[name=upper_text]")[0].oninput = function() {
