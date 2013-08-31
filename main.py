@@ -35,6 +35,7 @@ DEFAULT_FONT = 'FreeSerif.ttf'
 
 FONT_DIR = 'fonts'
 
+
 class MainHandler(webapp2.RequestHandler):
     """A handler for showing an HTML form."""
 
