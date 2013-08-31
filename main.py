@@ -44,7 +44,7 @@ FONT_DIR = 'fonts'
 
 
 def get_login_logout_context(target_url):
-    """Returns nickname, link url and link text for the login/logout html."""
+    """Returns nickname, link url and link text for the common_header.html."""
     user = users.get_current_user()
     if user:
         nickname = user.nickname()
