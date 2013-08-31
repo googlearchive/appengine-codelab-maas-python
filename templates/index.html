@@ -7,12 +7,8 @@
 <link rel="stylesheet" href="/static/css/maas.css" type="text/css">
 </head>
 <body>
-<div id="login_logout">
-  Hello {{ nickname }}!
-  <a href="{{ link_url }}">{{ link_text }}</a>
-  <span id="version">Step 1</span>
-</div>
-<form id="meme_form">
+{% include "common_header.html" %}
+<form id="meme_form" action="/create_meme" method="POST">
   Template:
   <select name="meme_template">
     {% for template in templates %}
@@ -50,6 +46,7 @@
     <option value="right">Right
   </select>
   <br>
+  <input type="submit" name="save_meme" value="Save this meme">
 </form>
 <hr>
 <div id="preview"><img id="preview_image"></div>

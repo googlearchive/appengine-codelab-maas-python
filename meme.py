@@ -3,6 +3,8 @@
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+from google.appengine.ext import ndb
+
 
 TOP = "top"
 MIDDLE = "middle"
@@ -116,3 +118,10 @@ def draw_text(target, vertical_position, horizontal_position, text,
                            .format(horizontal_position))
 
     target.paste(image , (pos_x, pos_y), image)
+
+
+class Meme(ndb.Model):
+    """A model class for storing memes."""
+    owner = ndb.UserProperty()
+    image = ndb.BlobProperty()
+    created_at = ndb.DateTimeProperty(auto_now_add=True)

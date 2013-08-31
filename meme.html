@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Meme detail</title>
+<link rel="stylesheet" href="/static/css/maas.css" type="text/css">
+</head>
+<body>
+{% include "common_header.html" %}
+<ul>
+  <li>Owner: {{ meme_owner }}
+  <li>Created at: {{ meme_created_date }}
+</ul>
+<img src="/image/{{ meme_id }}">
+</body>
+</html>
