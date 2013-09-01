@@ -42,6 +42,8 @@ DEFAULT_FONT = 'FreeSerif.ttf'
 
 FONT_DIR = 'fonts'
 
+THUMBNAIL_SIZE = (400, 400)
+
 
 def get_login_logout_context(target_url):
     """Returns nickname, link url and link text for the common_header.html."""
@@ -123,7 +125,7 @@ class ImageHandler(webapp2.RequestHandler):
         output = StringIO.StringIO()
         thumbnail_output = StringIO.StringIO()
         image.save(output, "JPEG")
-        image.thumbnail((300,300), Image.ANTIALIAS)
+        image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
         image.save(thumbnail_output, "JPEG")
         new_meme.image = output.getvalue()
         new_meme.thumbnail = thumbnail_output.getvalue()
