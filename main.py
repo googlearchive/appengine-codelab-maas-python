@@ -12,7 +12,6 @@ from google.appengine.api import users
 
 import meme
 
-TODO = None
 
 TODO = None
 
