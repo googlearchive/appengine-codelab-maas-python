@@ -135,7 +135,7 @@ class ImageHandler(webapp2.RequestHandler):
         # Call new_meme's method for saving it to the Datastore.
         # Look at the following doc:
         # https://developers.google.com/appengine/docs/python/ndb/modelclass
-        TODO
+        new_meme.put()
         self.redirect("/meme/{}".format(new_meme.key.id()), abort=True)
 
 

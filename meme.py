@@ -128,7 +128,7 @@ class Meme(ndb.Model):
     # Fill the owner attribute, in order to save the owner info.
     # See the docs below:
     # https://developers.google.com/appengine/docs/python/ndb/properties#types
-    owner = TODO
+    owner = ndb.UserProperty()
     image = ndb.BlobProperty()
     thumbnail = ndb.BlobProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True)
