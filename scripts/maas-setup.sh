@@ -37,9 +37,10 @@ cat >> ${HOME}/.tmux.conf <<EOF
 set-option -g prefix C-o
 unbind C-b
 set-window-option -g utf8 on
+set-option -g default-command \$SHELL
 EOF
 
-cat >> ${HOME}/.profile <<EOF
+cat >> ${HOME}/.bashrc <<EOF
 export PATH=${PATH}:${HOME}/maas/google_appengine
 alias dev_appserver.py="dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0"
 alias appcfg.py="appcfg.py --oauth2 --noauth_local_webserver"
@@ -47,5 +48,4 @@ EOF
 
 cat >> /etc/skel/.bash_logout <<EOF
 rm -f \${HOME}/.appcfg_oauth2_tokens
-/usr/local/bin/opensshpasswd
 EOF
