@@ -141,7 +141,7 @@ class ImageHandler(webapp2.RequestHandler):
         # step-3
         # It is important to delete the cache here for recent query.
         # Otherwise, the 'Recent' page will keep serving an old list.
-        TODO
+        memcache.delete(MEMCACHE_RECENT_KEY)
         self.redirect("/meme/{}".format(new_meme.key.id()), abort=True)
 
 
@@ -217,7 +217,7 @@ class MemeListingHandler(webapp2.RequestHandler):
                 # Complete the query object.  We want meme.Meme
                 # objects ordered by the created_at in a descending
                 # order.
-                query = TODO
+                query = meme.Meme.query().order(-meme.Meme.created_at)
                 memes = query.fetch(PAGE_SIZE)
                 memcache.set(MEMCACHE_RECENT_KEY, [m.key for m in memes])
             title = 'Recent memes'
