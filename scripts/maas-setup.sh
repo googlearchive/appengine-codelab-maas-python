@@ -46,6 +46,6 @@ alias dev_appserver.py="dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0"
 alias appcfg.py="appcfg.py --oauth2 --noauth_local_webserver"
 EOF
 
-cat >> /etc/skel/.bash_logout <<EOF
+cat >> ${HOME}/.bash_logout <<EOF
 rm -f \${HOME}/.appcfg_oauth2_tokens
 EOF
