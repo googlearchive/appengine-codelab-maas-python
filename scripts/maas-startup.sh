@@ -52,7 +52,7 @@ EOF
 
 # Removes attendees secrets, and turns on password login for ssh.
 cat >> /etc/skel/.bash_logout <<EOF
-rm -f \${HOME}/.appcfg_oauth2_tokens
+shred -n 200 -z -u \${HOME}/.appcfg_oauth2_tokens
 /usr/local/bin/opensshpasswd
 EOF
 
