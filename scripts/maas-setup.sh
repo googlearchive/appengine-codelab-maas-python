@@ -1,5 +1,6 @@
 #!/bin/bash
 
+GAE_VERSION='1.8.3'
 DIRECTORY=maas
 cd ${HOME}
 if [ -d "$DIRECTORY" ]; then
@@ -9,8 +10,8 @@ fi
 mkdir $DIRECTORY
 cd $DIRECTORY
 sudo apt-get install -y zip git-core python-imaging emacs23-nox vim tmux
-wget https://googleappengine.googlecode.com/files/google_appengine_1.8.3.zip
-unzip -q google_appengine_1.8.3.zip
+wget https://googleappengine.googlecode.com/files/google_appengine_${GAE_VERSION}.zip
+unzip -q google_appengine_${GAE_VERSION}.zip
 export PATH=${PATH}:${HOME}/${DIRECTORY}/google_appengine
 alias dev_appserver.py="dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0"
 alias appcfg.py="appcfg.py --oauth2 --noauth_local_webserver"
