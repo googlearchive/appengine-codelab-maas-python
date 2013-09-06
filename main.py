@@ -9,7 +9,9 @@ import jinja2
 import webapp2
 from PIL import Image
 
+from google.appengine.api import memcache
 from google.appengine.api import users
+from google.appengine.ext import ndb
 
 import meme
 
@@ -43,6 +45,10 @@ DEFAULT_FONT = 'FreeSerif.ttf'
 FONT_DIR = 'fonts'
 
 THUMBNAIL_SIZE = (400, 400)
+
+PAGE_SIZE = 40
+
+MEMCACHE_RECENT_KEY = 'recent'
 
 
 def get_login_logout_context(target_url):
@@ -131,11 +137,11 @@ class ImageHandler(webapp2.RequestHandler):
         new_meme.thumbnail = thumbnail_output.getvalue()
         output.close()
         thumbnail_output.close()
-        # step-2
-        # Call new_meme's method for saving it to the Datastore.
-        # Look at the following doc:
-        # https://developers.google.com/appengine/docs/python/ndb/modelclass
         new_meme.put()
+        # step-3
+        # It is important to delete the cache here for recent query.
+        # Otherwise, the 'Recent' page will keep serving an old list.
+        TODO
         self.redirect("/meme/{}".format(new_meme.key.id()), abort=True)
 
 
@@ -174,19 +180,67 @@ class MemeHandler(webapp2.RequestHandler):
 class MemeImageHandler(webapp2.RequestHandler):
     """A handler for serving an image of a particular meme."""
 
-    def get(self, meme_id):
+    def get(self, mode, meme_id):
         """Serves an image of a particular meme.
 
         Raises a 404 error when entity not found.
 
         Args:
+            mode: 'image' or 'thumbnail', extracted from the URL path.
             meme_id: id of Meme entity extracted from the URL path.
         """
         target = meme.Meme.get_by_id(long(meme_id))
         if target is None:
             self.abort(404)
         self.response.headers['Content-Type'] = 'image/jpeg'
-        self.response.write(target.image)
+        if mode == 'image':
+            self.response.write(target.image)
+        else:
+            self.response.write(target.thumbnail)
+
+
+class MemeListingHandler(webapp2.RequestHandler):
+    """A handler for listing recent memes."""
+
+    def get(self, mode):
+        """Display a list of memes according to given conditions.
+
+        The condition is given by the URL. Currently only 'recent' and
+        'mine' are implemented.
+        """
+        if mode == 'recent':
+            meme_keys = memcache.get(MEMCACHE_RECENT_KEY)
+            if meme_keys is not None:
+                memes = ndb.get_multi(meme_keys)
+            else:
+                # step-3
+                # Complete the query object.  We want meme.Meme
+                # objects ordered by the created_at in a descending
+                # order.
+                query = TODO
+                memes = query.fetch(PAGE_SIZE)
+                memcache.set(MEMCACHE_RECENT_KEY, [m.key for m in memes])
+            title = 'Recent memes'
+        elif mode == 'mine':
+            user = users.get_current_user()
+            if user is None:
+                self.redirect(users.create_login_url(self.request.uri),
+                              abort=True)
+            query = meme.Meme.query(meme.Meme.owner==user)\
+                .order(-meme.Meme.created_at)
+            title = 'Your memes'
+            memes = query.fetch(PAGE_SIZE)
+        nickname, link_url, link_text = get_login_logout_context(
+            self.request.uri)
+        template = JINJA_ENV.get_template('list_meme.html')
+        context = {
+            'title': title,
+            'nickname': nickname,
+            'link_url': link_url,
+            'link_text': link_text,
+            'memes': memes,
+        }
+        self.response.write(template.render(context))
 
 
 APPLICATION = webapp2.WSGIApplication([
@@ -194,5 +248,6 @@ APPLICATION = webapp2.WSGIApplication([
     ('/preview', ImageHandler),
     ('/create_meme', ImageHandler),
     ('/meme/(\d+)', MemeHandler),
-    ('/image/(\d+)', MemeImageHandler),
+    ('/(image|thumbnail)/(\d+)', MemeImageHandler),
+    ('/(recent|mine)', MemeListingHandler),
 ], debug=True)

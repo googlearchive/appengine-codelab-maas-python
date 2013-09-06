@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ title }}</title>
+<link rel="stylesheet" href="/static/css/maas.css" type="text/css">
+</head>
+<body>
+{% include "common_header.html" %}
+<h3>{{ title }}</h3>
+{% for meme in memes %}
+  <a href="/meme/{{ meme.key.id() }}">
+    <img src="/thumbnail/{{ meme.key.id() }}">
+  </a>
+{% endfor %}
+</body>
+</html>

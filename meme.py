@@ -124,10 +124,6 @@ def draw_text(target, vertical_position, horizontal_position, text,
 
 class Meme(ndb.Model):
     """A model class for storing memes."""
-    # step-2
-    # Fill the owner attribute, in order to save the owner info.
-    # See the docs below:
-    # https://developers.google.com/appengine/docs/python/ndb/properties#types
     owner = ndb.UserProperty()
     image = ndb.BlobProperty()
     thumbnail = ndb.BlobProperty()
