@@ -1,3 +1,8 @@
 #login_logout {
   float: right;
 }
+
+#version {
+  font-style: italic;
+  font-weight: bold;
+}
