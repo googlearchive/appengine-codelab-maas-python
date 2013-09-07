@@ -21,6 +21,7 @@ MEME_TEMPLATES = collections.OrderedDict([
     ('rapperboy', 'rapperboy.jpeg'),
     ('realappengine', 'realappengine.jpeg'),
     ('shrugging', 'shrugging.jpeg'),
+    ('bathing', 'bathing.jpeg'),
 ])
 
 DEFAULT_TEMPLATE = 'happyboy.jpeg'
