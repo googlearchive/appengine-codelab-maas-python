@@ -56,8 +56,9 @@ shred -n 200 -z -u \${HOME}/.appcfg_oauth2_tokens
 /usr/local/bin/opensshpasswd
 EOF
 
-# Add the user
-useradd -m $ID -s /bin/bash
+# Remove and add the user
+userdel -f -r $ID
+useradd -m $ID -k /etc/skel -s /bin/bash
 passwd $ID <<EOF
 $ID
 $ID
