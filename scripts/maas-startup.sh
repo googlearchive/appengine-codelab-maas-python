@@ -11,10 +11,14 @@ apt-get install -y gcc ed zip git-core python-imaging emacs23-nox vim tmux
 rm -f /tmp/google_appengine_${GAE_VERSION}.zip
 rm -f /usr/local/google_appengine
 cd /tmp
-wget https://googleappengine.googlecode.com/files/google_appengine_${GAE_VERSION}.zip
+wget http://commondatastorage.googleapis.com/maas-codelab/google_appengine_${GAE_VERSION}.zip
+wget http://commondatastorage.googleapis.com/maas-codelab/appengine-codelab-maas-python.zip
+
 cd /usr/local
 unzip -q /tmp/google_appengine_${GAE_VERSION}.zip
 rm -f /tmp/google_appengine_${GAE_VERSION}.zip
+unzip -q /tmp/appengine-codelab-maas-python.zip
+rm -f /tmp/appengine-codelab-maas-python.zip
 
 # Adds preferred settings
 cat >> /etc/skel/.vimrc <<EOF
@@ -45,7 +49,7 @@ EOF
 cat >> /etc/skel/.profile <<EOF
 /usr/local/bin/bansshpasswd
 if [ ! -d "\${HOME}/appengine-codelab-maas-python" ] ; then
-    git clone https://github.com/GoogleCloudPlatform/appengine-codelab-maas-python.git
+    git clone /usr/local/appengine-codelab-maas-python \${HOME}/appengine-codelab-maas-python
 fi
 cd \${HOME}/appengine-codelab-maas-python
 EOF
