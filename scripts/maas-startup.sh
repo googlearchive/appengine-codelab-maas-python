@@ -1,7 +1,7 @@
 #!/bin/bash
 # This is a GCE startup script for Memes as a Service codelab.
 
-GAE_VERSION='1.8.4'
+GAE_VERSION='1.8.7'
 ID=`uname -n`
 
 # Installs dependencies

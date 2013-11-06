@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GAE_VERSION='1.8.4'
+GAE_VERSION='1.8.7'
 DIRECTORY=maas
 cd ${HOME}
 if [ -d "$DIRECTORY" ]; then
