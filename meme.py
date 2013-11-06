@@ -47,7 +47,7 @@ def get_points_for_hemming(src, border_width=1):
     ]
 
 
-def draw_text(target, horizontal_position, vertical_position, text,
+def draw_text(target, vertical_position, horizontal_position, text,
               font_file=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE,
               color=DEFAULT_TEXT_COLOR, border_width=DEFAULT_BORDER_WIDTH,
               border_color=DEFAULT_BORDER_COLOR):
@@ -55,8 +55,8 @@ def draw_text(target, horizontal_position, vertical_position, text,
 
     Args:
         target: a target image object.
-        horizontal_position: either of TOP|MIDDLE|BOTTOM
-        vertical_position: either of LEFT|MIDDLE|RIGHT
+        vertical_position: either of TOP|MIDDLE|BOTTOM
+        horizontal_position: either of LEFT|MIDDLE|RIGHT
         text: text to draw
         font_file: font filename for drawing the text
         font_size: font size
@@ -96,20 +96,20 @@ def draw_text(target, horizontal_position, vertical_position, text,
         image = image.filter(ImageFilter.SMOOTH)
 
     # determine the paste position
-    if horizontal_position == TOP:
+    if vertical_position == TOP:
         pos_y = 0
-    elif horizontal_position == MIDDLE:
+    elif vertical_position == MIDDLE:
         pos_y = int(bbox[3] / 2 - text_bbox[3] / 2)
-    elif horizontal_position == BOTTOM:
+    elif vertical_position == BOTTOM:
         pos_y = bbox[3] - text_bbox[3]
     else:
-        raise RuntimeError('Invalid horizontal_position: {}'
-                           .format(horizontal_position))
-    if vertical_position == LEFT:
+        raise RuntimeError('Invalid vertical_position: {}'
+                           .format(vertical_position))
+    if horizontal_position == LEFT:
         pos_x = 0
-    elif vertical_position == MIDDLE:
+    elif horizontal_position == MIDDLE:
         pos_x = int(bbox[2] / 2 - text_bbox[2] / 2)
-    elif vertical_position == RIGHT:
+    elif horizontal_position == RIGHT:
         pos_x = bbox[2] - text_bbox[2]
     else:
         raise RuntimeError('Invalid horizontal_position: {}'
