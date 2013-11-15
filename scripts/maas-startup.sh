@@ -3,6 +3,7 @@
 
 GAE_VERSION='1.8.7'
 ID=`uname -n`
+PASSWD='' # you need to specify
 
 # Installs dependencies
 apt-get install -y gcc ed zip git-core python-imaging emacs23-nox vim tmux
@@ -45,82 +46,34 @@ alias dev_appserver.py="dev_appserver.py --host 0.0.0.0 --admin_host 0.0.0.0"
 alias appcfg.py="appcfg.py --oauth2 --noauth_local_webserver"
 EOF
 
-# Disables password auth for ssh and clones the repo upon login.
+# Clones the repo upon login.
 cat >> /etc/skel/.profile <<EOF
-/usr/local/bin/bansshpasswd
 if [ ! -d "\${HOME}/appengine-codelab-maas-python" ] ; then
     git clone /usr/local/appengine-codelab-maas-python \${HOME}/appengine-codelab-maas-python
 fi
 cd \${HOME}/appengine-codelab-maas-python
 EOF
 
-# Removes attendees secrets, and turns on password login for ssh.
+# Removes attendees secrets upon logout
 cat >> /etc/skel/.bash_logout <<EOF
 shred -n 200 -z -u \${HOME}/.appcfg_oauth2_tokens
-/usr/local/bin/opensshpasswd
 EOF
 
 # Remove and add the user
 userdel -f -r $ID
 useradd -m $ID -k /etc/skel -s /bin/bash
 passwd $ID <<EOF
-$ID
-$ID
+$PASSWD
+$PASSWD
 EOF
+chage -d 0 $ID
 
 # Turns on the password authentication.
-cp /etc/ssh/sshd_config /etc/ssh/.sshd_config.org
 ed /etc/ssh/sshd_config <<EOF
 /PasswordAuthentication no/s/ no/ yes/
 w
 q
 EOF
-cp /etc/ssh/sshd_config /etc/ssh/.sshd_config.passwd
-
-# Creates 2 root suid binaries for turn on/off password authentication
-cd /tmp
-
-cat <<EOF > /tmp/bansshpasswd.c
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-int main()
-{
-   setuid( 0 );
-   system("/bin/cp /etc/ssh/.sshd_config.org /etc/ssh/sshd_config");
-   system("/usr/sbin/service ssh restart");
-
-   return 0;
-}
-EOF
-
-gcc bansshpasswd.c -o bansshpasswd
-mv bansshpasswd /usr/local/bin
-chmod 4755 /usr/local/bin/bansshpasswd
-rm bansshpasswd.c
-
-cat <<EOF > /tmp/opensshpasswd.c
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-int main()
-{
-   setuid( 0 );
-   system("/bin/cp /etc/ssh/.sshd_config.passwd /etc/ssh/sshd_config");
-   system("/usr/sbin/service ssh restart");
-
-   return 0;
-}
-EOF
-
-gcc opensshpasswd.c -o opensshpasswd
-mv opensshpasswd /usr/local/bin
-chmod 4755 /usr/local/bin/opensshpasswd
-rm opensshpasswd.c
 
 # Restarts ssh for password auth.
 service ssh restart
